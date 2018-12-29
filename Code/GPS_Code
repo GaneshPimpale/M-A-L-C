@@ -1,0 +1,43 @@
+import math
+from math import radians
+import time
+import gpsd
+
+#Find Home location:
+gpsd.connect()
+packet = gpsd.get_current()
+PositionOne = packet.position()
+input()
+
+#Find Final location:
+gpsd.connect()
+packet = gpsd.get_current()
+PositionTwo = packet.position()
+
+#Define all variables and givens
+R = int(6378000) #Radius of the Earth
+LatH = radians(PositionOne[0])
+LongH = radians(PositionOne[1])
+LatF = radians(PositionTwo[0])
+LongF = radians(PositionTwo[1])
+dLat = LatF - LatH  #change in Lat
+dLong = LongF - LongH   #change in Long
+
+#Use the Haversine formula to find the distance between the two points
+a = math.sin(dLat/2) * math.sin(dLat/2) + (math.cos(LatH) * math.cos(LatF) * math.sin(dLong/2) * math.sin(dLong/2))
+c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+d = c * R
+#Distance can also be calculated by the spherical law of cosines: 
+    #d = math.acos(math.sin(LatH)*math.sin(LatF) + math.cos(LatH)*math.cos(LatF) * math.cos(dLong)) * R
+print(d, "Meters")
+
+#Arctan to find the angle to turn
+y = math.sin(dLong) * math.cos(LatF)
+x = math.cos(LatH)*math.sin(LatF) - math.sin(LatH) * math.cos(LatF) * math.cos(dLong)
+AngleRaw = math.atan2(y, x)
+Angle = math.degrees(AngleRaw)
+if Angle < 0:
+    Angle += 360
+MoveAngle = 360 - Angle
+print(MoveAngle, "Degrees")
+
