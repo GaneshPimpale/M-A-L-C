@@ -1,0 +1,49 @@
+#motor Libraries:
+from RpiMotorLib import rpi_dc_lib
+#Other Libraries:
+import pygame
+pygame.init()
+import time
+
+#Define Motors
+MotorOne = rpi_dc_lib.L298NMDc(23 ,24 ,25 ,50 ,True, "motor_two")
+MotorTwo = rpi_dc_lib.L298NMDc(19 ,13 ,26 ,50 ,True, "motor_one")
+MotorThree = rpi_dc_lib.L298NMDc( 17, 27, 22,50 ,True, "motor_three")
+
+#Define screen and pygame settings
+size = (700, 500)
+screen = pygame.display.set_mode(size)
+done = False
+clock = pygame.time.Clock()
+
+#Main loop
+while not done:
+    for event in pygame.event.get():
+        if event.type == pygame.event.get():
+            done = True
+    #Clock Speed:
+    clock.tick(120)
+    #add motor run time for functions:
+    for event in pygame.event.get():
+        if event.type == pygame.KEYDOWN:    
+            if event.key == pygame.K_UP:
+                MotorOne.forward(100)
+                MotorTwo.forward(100) 
+            elif event.key == pygame.K_DOWN:
+                MotorOne.backward(100)
+                MotorTwo.backward(100) 
+            elif event.key == pygame.K_LEFT:
+                MotorOne.backward(100)
+                MotorTwo.forward(100) 
+            elif event.key == pygame.K_RIGHT:
+                MotorOne.forward(100)
+                MotorTwo.backward(100) 
+            elif event.key == pygame.K_SPACE:
+                MotorThree.forward(100)
+                #ADD LIMIT SWITCH CONDTION!!! 
+                    
+        elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_UP or event.key == pygame.K_DOWN or event.key == pygame.K_SPACE:
+                MotorOne.stop(0)
+                MotorTwo.stop(0)
+                MotorThree.stop(0)
