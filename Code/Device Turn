@@ -1,0 +1,124 @@
+#motor Libraries:
+from RpiMotorLib import rpi_dc_lib
+#Other Libraries:
+import pygame
+pygame.init()
+import time
+
+#Find current location:
+gpsd.connect()
+packet = gpsd.get_current()
+PositionTwo = packet.position()
+
+#Define all variables and givens
+R = int(6378000) #Radius of the Earth
+LatH = 0
+LongH = 0
+LatF = radians(PositionTwo[0])
+LongF = radians(PositionTwo[1])
+dLat = LatF - LatH  #change in Lat
+dLong = LongF - LongH   #change in Long
+
+def AngleCheck():
+    y = math.sin(dLong) * math.cos(LatF)
+    x = math.cos(LatH)*math.sin(LatF) - math.sin(LatH) * math.cos(LatF) * math.cos(dLong)
+    AngleRaw = math.atan2(y, x)
+    Angle = math.degrees(AngleRaw)
+    if Axngle < 0:
+        Angle += 360
+
+def 45DegreeLeft():
+    #SUBTRACT 45 from the crrent angle to equal NEW ANGLE
+    AngleCheck()
+    Angle - 45 = TurnAngle
+    dAndle = Angle - TurnAngle
+    #Turn left and check
+    while (dAngle > 2.5):
+         MotorOne.backward(25)
+         MotorTwo.forward(25)
+    if (dAngle < 2.5):
+        while (dAngle < 2.5):
+             MotorOne.forward(25)
+             MotorTwo.backward(25)
+
+def 45DegreeRight():
+    MotorOne = rpi_dc_lib.L298NMDc(23 ,24 ,25 ,50 ,True, "motor_two")
+    MotorTwo = rpi_dc_lib.L298NMDc(19 ,13 ,26 ,50 ,True, "motor_one")
+    #ADD 45 to the crrent angle to equal NEW ANGLE
+    AngleCheck()
+    Angle + 45 = TurnAngle
+    dAndle2 = TurnAngle - Angle
+    #Turn left and check
+    while (dAngle2 > 2.5):
+         MotorOne.forward(25)
+         MotorOne.backward(25)
+    if (dAngle2 < 2.5):
+        while (dAngle2 < 2.5):
+             MotorOne.backward(25)
+             MotorTwo.forward(25)
+    
+def 90DegreeLeft():
+    MotorOne = rpi_dc_lib.L298NMDc(23 ,24 ,25 ,50 ,True, "motor_two")
+    MotorTwo = rpi_dc_lib.L298NMDc(19 ,13 ,26 ,50 ,True, "motor_one")
+    #SUBTRACT 90 from the crrent angle to equal NEW ANGLE
+    AngleCheck()
+    Angle - 90 = TurnAngle
+    dAndle3  = Angle - TurnAngle
+    #Turn left and check
+    while (dAngle3 > 2.5):
+         MotorOne.backward(25)
+         MotorTwo.forward(25)
+    if (dAngle3 < 2.5):
+        while (dAngle3 < 2.5):
+             MotorOne.forward(25)
+             MotorTwo.backward(25)
+
+def 90DegreeRight():
+    MotorOne = rpi_dc_lib.L298NMDc(23 ,24 ,25 ,50 ,True, "motor_two")
+    MotorTwo = rpi_dc_lib.L298NMDc(19 ,13 ,26 ,50 ,True, "motor_one")
+    #ADD 90 to the crrent angle to equal NEW ANGLE
+    AngleCheck()
+    Angle + 45 = TurnAngle
+    dAndle4 = TurnAngle - Angle
+    #Turn left and check
+    while (dAngle4 > 2.5):
+         MotorOne.forward(25)
+         MotorOne.backward(25)
+    if (dAngle4 < 2.5):
+        while (dAngle4 < 2.5):
+             MotorOne.backward(25)
+             MotorTwo.forward(25)
+
+def XDegreeLeft():
+    MotorOne = rpi_dc_lib.L298NMDc(23 ,24 ,25 ,50 ,True, "motor_two")
+    MotorTwo = rpi_dc_lib.L298NMDc(19 ,13 ,26 ,50 ,True, "motor_one")
+    #SUBTRACT X from the crrent angle to equal NEW ANGLE
+    int(input())= xl
+    AngleCheck()
+    Angle - xl = TurnAngle 
+    dAngleXL = TurnAngle - Angle
+    #Turn left and check
+    while (dAngleXL > 2.5):
+         MotorOne.backward(25)
+         MotorTwo.forward(25)
+    if (dAngleXL < 2.5):
+        while (dAngleXL < 2.5):
+             MotorOne.forward(25)
+             MotorTwo.backward(25)
+    
+def XDegreeRight():
+    MotorOne = rpi_dc_lib.L298NMDc(23 ,24 ,25 ,50 ,True, "motor_two")
+    MotorTwo = rpi_dc_lib.L298NMDc(19 ,13 ,26 ,50 ,True, "motor_one")
+    #ADD X to the crrent angle to equal NEW ANGLE
+    int(input()) = xr
+    AngleCheck()
+    Angle + xr  = TurnAngle
+    dAndleXR = Angle - TurnAngle
+    #Turn left and check
+    while (dAngleXR > 2.5):
+         MotorOne.forward(25)
+         MotorOne.backward(25)
+    if (dAngleXR < 2.5):
+        while (dAngleXR < 2.5):
+             MotorOne.backward(25)
+             MotorTwo.forward(25)
